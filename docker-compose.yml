@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  subscription-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: subscriptions_admin
+      POSTGRES_PASSWORD: subscriptions_pass
+      POSTGRES_DB: subscriptions
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data_subscriptions:/var/lib/postgresql/data
+    networks:
+      - news_feed_network
+
+  subscription-service:
+    build: ./subscription-service
+    command: sh ./run.sh
+    networks:
+      - news_feed_network
+    depends_on:
+      - subscription-service-db
+
+  client-service-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: clients_admin
+      POSTGRES_PASSWORD: clients_pass
+      POSTGRES_DB: clients
+    ports:
+      - "5434:5432"
+    volumes:
+      - pg_data_clients:/var/lib/postgresql/data
+    networks:
+      - news_feed_network
+
+  client-service:
+    build: ./client-service
+    command: sh ./run.sh
+    ports:
+      - "3000:3000"
+    networks:
+      - news_feed_network
+    depends_on:
+      - client-service-db
+      - subscription-service
+
+
+networks:
+  news_feed_network:
+    driver: bridge
+
+volumes:
+  pg_data_clients:
+  pg_data_subscriptions:

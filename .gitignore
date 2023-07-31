@@ -1,0 +1,8 @@
+.DS_Store
+*.pyc
+*.pyo
+venv/
+.cache/
+.pytest_cache/
+.idea/
+*.db

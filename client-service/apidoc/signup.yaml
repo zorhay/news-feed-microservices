@@ -1,0 +1,28 @@
+tags:
+  - auth
+consumes:
+  - application/json
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/SignUpUserRequest'
+  - name: User-Agent
+    in: header
+    description: device type
+    required: false
+    type: string
+responses:
+  201:
+    schema:
+      $ref: '#/definitions/CreatedResponse'
+  422:
+    schema:
+      $ref: '#/definitions/UnprocessableEntityResponse'
+  404:
+    schema:
+      $ref: '#/definitions/NotFoundResponse'
+  503:
+    schema:
+      $ref: '#/definitions/ServiceUnavailableResponse'

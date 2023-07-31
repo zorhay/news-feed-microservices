@@ -1,0 +1,47 @@
+---
+swagger: "2.0"
+
+info:
+  description: Client service API documentation
+  version: "1.0.0"
+  title: News Feed
+
+definitions:
+  SignUpUserRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+      - email
+      - password
+    example: {
+      email: test@test.com,
+      password: test
+    }
+
+  CreatedResponse:
+    type: object
+    properties:
+      message:
+        type: string
+  UnprocessableEntityResponse:
+    type: object
+    properties:
+      errors:
+        type: object
+        properties:
+          field:
+            type: array
+            items:
+              type: string
+    example:
+      errors:
+        email:
+          - Invalid email.
+  NotFoundResponse:
+    description: "Specified resource was not found."
+  ServiceUnavailableResponse:
+    description: "Related service is unavailable."
